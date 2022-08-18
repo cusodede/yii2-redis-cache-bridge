@@ -14,6 +14,84 @@ services:
     networks:
       - yii2-cache-bridge-network
 
+  redis1:
+    image: redis:7.0.4-alpine
+    container_name: redis1
+    environment:
+      - TZ=Europe/Moscow
+    ports:
+      - "6379:6379"
+      - "16379:16379"
+    volumes:
+      - ./redis/conf/redis1.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data/:/data/
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis2:
+      image: redis:7.0.4-alpine
+      container_name: redis2
+      environment:
+        - TZ=Europe/Moscow
+      ports:
+        - "6380:6379"
+        - "16380:16379"
+      volumes:
+        - ./redis/conf/redis2.conf:/usr/local/etc/redis/redis.conf
+        - ./redis/data/:/data/
+      command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis3:
+      image: redis:7.0.4-alpine
+      container_name: redis3
+      environment:
+        - TZ=Europe/Moscow
+      ports:
+        - "6381:6379"
+        - "16381:16379"
+      volumes:
+        - ./redis/conf/redis3.conf:/usr/local/etc/redis/redis.conf
+        - ./redis/data/:/data/
+      command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis4:
+      image: redis:7.0.4-alpine
+      container_name: redis4
+      environment:
+        - TZ=Europe/Moscow
+      ports:
+        - "6382:6379"
+        - "16382:16379"
+      volumes:
+        - ./redis/conf/redis4.conf:/usr/local/etc/redis/redis.conf
+        - ./redis/data/:/data/
+      command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis5:
+      image: redis:7.0.4-alpine
+      container_name: redis5
+      environment:
+        - TZ=Europe/Moscow
+      ports:
+        - "6383:6379"
+        - "16383:16379"
+      volumes:
+        - ./redis/conf/redis5.conf:/usr/local/etc/redis/redis.conf
+        - ./redis/data/:/data/
+      command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis6:
+      image: redis:7.0.4-alpine
+      container_name: redis6
+      environment:
+        - TZ=Europe/Moscow
+      ports:
+        - "6384:6379"
+        - "16384:16379"
+      volumes:
+        - ./redis/conf/redis6.conf:/usr/local/etc/redis/redis.conf
+        - ./redis/data/:/data/
+      command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
 networks:
   yii2-cache-bridge-network:
     driver: bridge
