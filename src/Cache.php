@@ -99,6 +99,14 @@ class Cache extends Yii2Cache
     }
 
     /**
+     * @inheritDoc
+     */
+    public function exists($key)
+    {
+        return $this->instance->has($key);
+    }
+
+    /**
      * @return ClientInterface
      */
     private function getClient(): ClientInterface
