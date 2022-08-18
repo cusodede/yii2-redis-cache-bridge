@@ -62,7 +62,12 @@ class Cache extends Yii2Cache
      */
     public function setValue($key, $value, $duration)
     {
-        return $this->instance->set($key, $value, $duration);
+        $ttl = $duration;
+        if (0 !== $duration) {
+            $ttl = $duration * 1000;
+        }
+
+        return $this->instance->set($key, $value, $ttl);
     }
 
     /**
