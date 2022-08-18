@@ -19,6 +19,9 @@ class Cache extends Yii2Cache
     private RedisCache $instance;
     private ClientInterface $client;
 
+    /**
+     * @inheritDoc
+     */
     public function init()
     {
         parent::init();
@@ -26,12 +29,18 @@ class Cache extends Yii2Cache
         $this->instance = $this->getInstance();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValue($key)
     {
         $data = $this->instance->get($key);
         return serialize($data);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValues($keys)
     {
         if ($this->isCluster) {
@@ -48,16 +57,25 @@ class Cache extends Yii2Cache
         return $result;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setValue($key, $value, $duration)
     {
         return $this->instance->set($key, $value, $duration);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function deleteValue($key)
     {
         return $this->instance->delete($key);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function flushValues()
     {
         if ($this->isCluster) {
@@ -72,16 +90,25 @@ class Cache extends Yii2Cache
         return $this->client->flushall();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function addValue($key, $value, $duration)
     {
         return $this->instance->set($key, $value, $duration);
     }
 
+    /**
+     * @return ClientInterface
+     */
     private function getClient(): ClientInterface
     {
         return new Client($this->clientParams, $this->clientOptions);
     }
 
+    /**
+     * @return RedisCache
+     */
     private function getInstance(): RedisCache
     {
         return new RedisCache($this->client);
