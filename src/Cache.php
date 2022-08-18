@@ -7,10 +7,10 @@ use Predis\Client;
 use Predis\ClientInterface;
 use Predis\Command\ServerFlushDatabase;
 use Predis\Connection\StreamConnection;
-use yii\caching\Cache as Yii3Cache;
+use yii\caching\Cache as Yii2Cache;
 use Yiisoft\Cache\Redis\RedisCache;
 
-class Cache extends Yii3Cache
+class Cache extends Yii2Cache
 {
     public array $clientParams = [];
     public array $clientOptions = [];
