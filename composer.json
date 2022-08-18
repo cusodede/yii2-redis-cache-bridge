@@ -1,0 +1,37 @@
+{
+  "name": "cusodede/yii2-redis-cache-bridge",
+  "type": "yii2-module",
+  "description": "",
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^8.0|^8.1",
+    "yiisoft/yii2": "^2.0.45",
+    "yiisoft/cache-redis": "^1.0.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "codeception/codeception": "^4.2.1",
+    "codeception/module-asserts": "^1.3.1",
+    "codeception/module-yii2": "^1.0.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Cusodede\\Redis\\": "src"
+    }
+  },
+  "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  }
+}
