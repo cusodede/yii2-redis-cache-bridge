@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  php80:
+    container_name: yii2-cache-bridge
+    hostname: yii2-cache-bridge
+    build: ./php/80
+    volumes:
+      - ../runtime/.composer80:/root/.composer
+      - ../..:/var/www
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
+    networks:
+      - yii2-cache-bridge-network
+
+networks:
+  yii2-cache-bridge-network:
+    driver: bridge
