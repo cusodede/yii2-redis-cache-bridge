@@ -7,6 +7,7 @@ use Predis\Client;
 use Predis\ClientInterface;
 use Predis\Command\ServerFlushDatabase;
 use Predis\Connection\StreamConnection;
+use Predis\NotSupportedException;
 use Psr\SimpleCache\InvalidArgumentException;
 use yii\caching\Cache as Yii2Cache;
 use Yiisoft\Cache\Redis\RedisCache;
@@ -144,7 +145,13 @@ class Cache extends Yii2Cache
      */
     public function getIsCluster(): bool
     {
-        return false;
+        try {
+            $this->client->executeRaw(['CLUSTER INFO']);
+
+            return true;
+        } catch (NotSupportedException $exception) {
+            return false;
+        }
     }
 
     /**
