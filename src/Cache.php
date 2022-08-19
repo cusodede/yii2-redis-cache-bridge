@@ -7,17 +7,24 @@ use Predis\Client;
 use Predis\ClientInterface;
 use Predis\Command\ServerFlushDatabase;
 use Predis\Connection\StreamConnection;
+use Psr\SimpleCache\InvalidArgumentException;
 use yii\caching\Cache as Yii2Cache;
 use Yiisoft\Cache\Redis\RedisCache;
 
+/**
+ * @property-read bool $isCluster
+ */
 class Cache extends Yii2Cache
 {
     public array $clientParams = [];
     public array $clientOptions = [];
-    public bool $isCluster = true;
 
     private RedisCache $instance;
     private ClientInterface $client;
+    /**
+     * @var bool if hash tags were supplied for a MGET/MSET operation
+     */
+    private bool $hashTagAvailable = false;
 
     /**
      * @inheritDoc
@@ -40,10 +47,11 @@ class Cache extends Yii2Cache
 
     /**
      * @inheritDoc
+     * @throws InvalidArgumentException
      */
     public function getValues($keys)
     {
-        if ($this->isCluster) {
+        if ($this->isCluster && !$this->hashTagAvailable) {
             return parent::getValues($keys);
         }
 
@@ -53,6 +61,7 @@ class Cache extends Yii2Cache
         foreach ($data as $key => $value) {
             $result[$key] = serialize($value);
         }
+        $this->hashTagAvailable = false;
 
         return $result;
     }
@@ -114,6 +123,28 @@ class Cache extends Yii2Cache
     public function exists($key)
     {
         return $this->instance->has($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildKey($key)
+    {
+        if (is_string($key) && preg_match('/^(.*)({.+})(.*)$/', $key, $matches) === 1) {
+            $this->hashTagAvailable = true;
+
+            return parent::buildKey($matches[1] . $matches[3]) . $matches[2];
+        }
+
+        return parent::buildKey($key);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsCluster(): bool
+    {
+        return false;
     }
 
     /**
