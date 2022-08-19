@@ -1,6 +1,6 @@
 {
   "name": "cusodede/yii2-redis-cache-bridge",
-  "type": "yii2-module",
+  "type": "yii2-extension",
   "description": "",
   "minimum-stability": "dev",
   "require": {
