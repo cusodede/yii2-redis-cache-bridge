@@ -11,7 +11,7 @@ services:
     dns:
       - 8.8.8.8
       - 4.4.4.4
-    networks:
+    networks: &network
       - yii2-cache-bridge-network
 
   redis-single:
@@ -24,6 +24,7 @@ services:
       - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/data/:/data/
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks: *network
 
   redis1:
     image: redis:7.0.4-alpine
