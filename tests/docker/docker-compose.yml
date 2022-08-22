@@ -18,11 +18,11 @@ services:
     image: redis:7.0.4-alpine
     container_name: redis-single
     ports:
-      - "6378:6379"
-      - "16378:16379"
+      - "6380:6380"
+      - "16380:16380"
     volumes:
       - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/data/:/data/
+      - ./redis/data/single/:/data/
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     networks: *network
 
@@ -32,11 +32,11 @@ services:
     environment:
       - TZ=Europe/Moscow
     ports:
-      - "6379:6379"
-      - "16379:16379"
+      - "6381:6381"
+      - "16381:16381"
     volumes:
       - ./redis/conf/redis1.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/data/:/data/
+      - ./redis/data/redis1/:/data/
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   redis2:
@@ -45,11 +45,11 @@ services:
       environment:
         - TZ=Europe/Moscow
       ports:
-        - "6380:6379"
-        - "16380:16379"
+        - "6382:6382"
+        - "16382:16382"
       volumes:
         - ./redis/conf/redis2.conf:/usr/local/etc/redis/redis.conf
-        - ./redis/data/:/data/
+        - ./redis/data/redis2/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   redis3:
@@ -58,11 +58,11 @@ services:
       environment:
         - TZ=Europe/Moscow
       ports:
-        - "6381:6379"
-        - "16381:16379"
+        - "6383:6383"
+        - "16383:16383"
       volumes:
         - ./redis/conf/redis3.conf:/usr/local/etc/redis/redis.conf
-        - ./redis/data/:/data/
+        - ./redis/data/redis3/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   redis4:
@@ -71,11 +71,11 @@ services:
       environment:
         - TZ=Europe/Moscow
       ports:
-        - "6382:6379"
-        - "16382:16379"
+        - "6384:6384"
+        - "16384:16384"
       volumes:
         - ./redis/conf/redis4.conf:/usr/local/etc/redis/redis.conf
-        - ./redis/data/:/data/
+        - ./redis/data/redis4/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   redis5:
@@ -84,11 +84,11 @@ services:
       environment:
         - TZ=Europe/Moscow
       ports:
-        - "6383:6379"
-        - "16383:16379"
+        - "6385:6385"
+        - "16385:16385"
       volumes:
         - ./redis/conf/redis5.conf:/usr/local/etc/redis/redis.conf
-        - ./redis/data/:/data/
+        - ./redis/data/redis5/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   redis6:
@@ -97,11 +97,11 @@ services:
       environment:
         - TZ=Europe/Moscow
       ports:
-        - "6384:6379"
-        - "16384:16379"
+        - "6386:6386"
+        - "16386:16386"
       volumes:
         - ./redis/conf/redis6.conf:/usr/local/etc/redis/redis.conf
-        - ./redis/data/:/data/
+        - ./redis/data/redis6/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
 networks:
