@@ -94,12 +94,7 @@ class Cache extends Yii2Cache
     public function flushValues()
     {
         if ($this->isCluster) {
-            $flushDbCommand = new ServerFlushDatabase();
-            foreach ($this->client->getConnection() as $node) {
-                /** @var StreamConnection $node */
-                $node->executeCommand($flushDbCommand);
-            }
-            return true;
+            return $this->flushCluster();
         }
 
         return $this->client->flushall();
@@ -141,6 +136,18 @@ class Cache extends Yii2Cache
     }
 
     /**
+     * @inheritDoc
+     */
+    public function flush()
+    {
+        if ($this->isCluster) {
+            return $this->flushCluster();
+        }
+
+        return $this->instance->clear();
+    }
+
+    /**
      * @return bool
      */
     public function getIsCluster(): bool
@@ -168,5 +175,19 @@ class Cache extends Yii2Cache
     private function getInstance(): RedisCache
     {
         return new RedisCache($this->client);
+    }
+
+    /**
+     * @return bool
+     */
+    private function flushCluster(): bool
+    {
+        $flushDbCommand = new ServerFlushDatabase();
+        foreach ($this->client->getConnection() as $node) {
+            /** @var StreamConnection $node */
+            $node->executeCommand($flushDbCommand);
+        }
+
+        return true;
     }
 }
