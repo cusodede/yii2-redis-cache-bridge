@@ -15,3 +15,6 @@ test80:
 
 create-cluster:
 	redis-cli -p 6381 -a Password --cluster create 172.20.128.2:6381 172.20.128.3:6382 172.20.128.4:6383 172.20.128.5:6384 172.20.128.6:6385 172.20.128.7:6386 --cluster-replicas 1
+
+connect-cluster:
+	redis-cli -c -p 6381 -a Password
