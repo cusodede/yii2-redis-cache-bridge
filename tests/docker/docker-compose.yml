@@ -38,7 +38,10 @@ services:
       - ./redis/conf/redis1.conf:/usr/local/etc/redis/redis.conf
       - ./redis/data/redis1/:/data/
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-    networks: *network
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.2
+
 
   redis2:
       image: redis:7.0.4-alpine
@@ -52,7 +55,9 @@ services:
         - ./redis/conf/redis2.conf:/usr/local/etc/redis/redis.conf
         - ./redis/data/redis2/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-      networks: *network
+      networks:
+        yii2-cache-bridge-network:
+          ipv4_address: 172.20.128.3
 
   redis3:
       image: redis:7.0.4-alpine
@@ -66,7 +71,9 @@ services:
         - ./redis/conf/redis3.conf:/usr/local/etc/redis/redis.conf
         - ./redis/data/redis3/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-      networks: *network
+      networks:
+        yii2-cache-bridge-network:
+          ipv4_address: 172.20.128.4
 
   redis4:
       image: redis:7.0.4-alpine
@@ -80,7 +87,9 @@ services:
         - ./redis/conf/redis4.conf:/usr/local/etc/redis/redis.conf
         - ./redis/data/redis4/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-      networks: *network
+      networks:
+        yii2-cache-bridge-network:
+          ipv4_address: 172.20.128.5
 
   redis5:
       image: redis:7.0.4-alpine
@@ -94,7 +103,9 @@ services:
         - ./redis/conf/redis5.conf:/usr/local/etc/redis/redis.conf
         - ./redis/data/redis5/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-      networks: *network
+      networks:
+        yii2-cache-bridge-network:
+          ipv4_address: 172.20.128.6
 
   redis6:
       image: redis:7.0.4-alpine
@@ -108,8 +119,13 @@ services:
         - ./redis/conf/redis6.conf:/usr/local/etc/redis/redis.conf
         - ./redis/data/redis6/:/data/
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-      networks: *network
+      networks:
+        yii2-cache-bridge-network:
+          ipv4_address: 172.20.128.7
 
 networks:
   yii2-cache-bridge-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
