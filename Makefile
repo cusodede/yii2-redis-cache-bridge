@@ -21,7 +21,7 @@ test81:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
 create-cluster:
-	docker exec redis1 sh -c 'printf "\n" | redis-cli -p 6381 -a Password --cluster create 172.20.128.2:6381 172.20.128.3:6382 172.20.128.4:6383 172.20.128.5:6384 172.20.128.6:6385 172.20.128.7:6386 --cluster-replicas 1 --no-auth-warning'
+	docker exec redis1 sh -c 'printf "yes" | redis-cli -p 6381 -a Password --cluster create 172.20.128.2:6381 172.20.128.3:6382 172.20.128.4:6383 172.20.128.5:6384 172.20.128.6:6385 172.20.128.7:6386 --cluster-replicas 1 --no-auth-warning'
 
 connect-cluster:
 	docker exec -it redis1 sh -c 'redis-cli -c -p 6381 -a Password --no-auth-warning'
