@@ -10,11 +10,13 @@ start:
 test: test80 test81
 test80:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php80
+	make create-cluster
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php80 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
 test81:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php81
+	make create-cluster
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php81 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
