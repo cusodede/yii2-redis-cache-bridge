@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   php80:
-    container_name: yii2-cache-bridge
-    hostname: yii2-cache-bridge
+    container_name: yii2-cache-bridge-php80
+    hostname: yii2-cache-bridge-php80
     build: ./php/80
     volumes:
       - ../runtime/.composer80:/root/.composer
@@ -13,6 +13,18 @@ services:
       - 4.4.4.4
     networks: &network
       - yii2-cache-bridge-network
+
+  php81:
+    container_name: yii2-cache-bridge-php81
+    hostname: yii2-cache-bridge-php81
+    build: ./php/81
+    volumes:
+      - ../runtime/.composer81:/root/.composer
+      - ../..:/var/www
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
+    networks: *network
 
   redis-single:
     image: redis:7.0.4-alpine
