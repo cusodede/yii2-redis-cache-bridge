@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 php:8.0.22-fpm-alpine
 
 RUN apk add unzip zlib-dev libzip-dev
 
-RUN docker-php-ext-install zip
+RUN docker-php-ext-install zip pcntl
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
