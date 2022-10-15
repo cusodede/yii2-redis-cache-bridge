@@ -1,5 +1,5 @@
 build:
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d --build
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d --build php$(v)
 
 down:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
@@ -7,15 +7,15 @@ down:
 start:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d
 
-test: test80 test81
-test80:
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php80
+test: test8.0 test8.1
+test8.0:
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.0
 	make create-cluster
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php80 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
-test81:
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php81
+test8.1:
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.1
 	make create-cluster
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php81 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
@@ -25,3 +25,8 @@ create-cluster:
 
 connect-cluster:
 	docker exec -it redis1 sh -c "redis-cli -c -p 6381 -a Password --no-auth-warning"
+
+analyse:
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php$(v)
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php$(v) vendor/bin/psalm --stats -m --output-format=console --php-version=$(v) --threads=2
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down

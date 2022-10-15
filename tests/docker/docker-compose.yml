@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  php80:
+  php8.0:
     container_name: yii2-cache-bridge-php80
     hostname: yii2-cache-bridge-php80
     build: ./php/80
@@ -14,7 +14,7 @@ services:
     networks: &network
       - yii2-cache-bridge-network
 
-  php81:
+  php8.1:
     container_name: yii2-cache-bridge-php81
     hostname: yii2-cache-bridge-php81
     build: ./php/81
