@@ -1,5 +1,5 @@
 build:
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d --build php$(v)
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d --build
 
 down:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
@@ -11,13 +11,13 @@ test: test8.0 test8.1
 test8.0:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.0
 	make create-cluster
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php80 vendor/bin/codecept run
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php8.0 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
 test8.1:
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.1
 	make create-cluster
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php81 vendor/bin/codecept run
+	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php8.1 vendor/bin/codecept run
 	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
 
 create-cluster:
