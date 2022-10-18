@@ -2,3 +2,4 @@
 vendor
 composer.lock
 tests/docker/redis/data
+/tests/_output/failed
