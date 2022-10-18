@@ -19,7 +19,7 @@ $connect = [
 
 return [
     'class' => Cache::class,
-    'keyPrefix' => 'PSB_',
+    'keyPrefix' => 'YOUR_APP_PREFIX_',
     'clientParams' => [
         'host' => getenv('REDIS_HOST'),
         'port' => getenv('REDIS_PORT'),

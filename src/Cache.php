@@ -9,7 +9,6 @@ use Predis\ClientInterface;
 use Predis\Command\ServerFlushDatabase;
 use Predis\Connection\StreamConnection;
 use Predis\NotSupportedException;
-use Psr\SimpleCache\InvalidArgumentException;
 use yii\caching\Cache as Yii2Cache;
 use Yiisoft\Cache\Redis\RedisCache;
 
@@ -49,7 +48,6 @@ class Cache extends Yii2Cache
 
     /**
      * @inheritDoc
-     * @throws InvalidArgumentException
      */
     public function getValues($keys): array
     {
