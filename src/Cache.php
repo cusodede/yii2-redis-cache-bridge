@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cusodede\Redis;
@@ -23,18 +24,18 @@ class Cache extends Yii2Cache
     private RedisCache $instance;
     private ClientInterface $client;
     /**
-     * @var bool if hash tags were supplied for a MGET/MSET operation
+     * @var bool if hashtags were supplied for a MGET/MSET operation
      */
     private bool $hashTagAvailable = false;
 
     /**
      * @inheritDoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
-        $this->client = $this->getClient();
-        $this->instance = $this->getInstance();
+        $this->setClient();
+        $this->setInstance();
     }
 
     /**
@@ -50,7 +51,7 @@ class Cache extends Yii2Cache
      * @inheritDoc
      * @throws InvalidArgumentException
      */
-    public function getValues($keys)
+    public function getValues($keys): array
     {
         if ($this->isCluster && !$this->hashTagAvailable) {
             return parent::getValues($keys);
@@ -70,20 +71,15 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function setValue($key, $value, $duration)
+    public function setValue($key, $value, $duration): bool
     {
-        $ttl = $duration;
-        if (0 !== $duration) {
-            $ttl = $duration * 1000;
-        }
-
-        return $this->instance->set($key, $value, $ttl);
+        return $this->addValue($key, $value, $duration);
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteValue($key)
+    public function deleteValue($key): bool
     {
         return $this->instance->delete($key);
     }
@@ -91,7 +87,7 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function flushValues()
+    public function flushValues(): bool
     {
         if ($this->isCluster) {
             return $this->flushCluster();
@@ -103,7 +99,7 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function addValue($key, $value, $duration)
+    public function addValue($key, $value, $duration): bool
     {
         $ttl = $duration;
         if (0 !== $duration) {
@@ -116,7 +112,7 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function exists($key)
+    public function exists($key): bool
     {
         return $this->instance->has($key);
     }
@@ -124,7 +120,7 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function buildKey($key)
+    public function buildKey($key): string
     {
         if (is_string($key) && preg_match('/^(.*)({.+})(.*)$/', $key, $matches) === 1) {
             $this->hashTagAvailable = true;
@@ -138,7 +134,7 @@ class Cache extends Yii2Cache
     /**
      * @inheritDoc
      */
-    public function flush()
+    public function flush(): bool
     {
         if ($this->isCluster) {
             return $this->flushCluster();
@@ -162,19 +158,35 @@ class Cache extends Yii2Cache
     }
 
     /**
+     * @return void
+     */
+    private function setClient(): void
+    {
+        $this->client = new Client($this->clientParams, $this->clientOptions);
+    }
+
+    /**
+     * @return void
+     */
+    private function setInstance(): void
+    {
+        $this->instance = new RedisCache($this->client);
+    }
+
+    /**
      * @return ClientInterface
      */
-    private function getClient(): ClientInterface
+    public function getClient(): ClientInterface
     {
-        return new Client($this->clientParams, $this->clientOptions);
+        return $this->client;
     }
 
     /**
      * @return RedisCache
      */
-    private function getInstance(): RedisCache
+    public function getInstance(): RedisCache
     {
-        return new RedisCache($this->client);
+        return $this->instance;
     }
 
     /**

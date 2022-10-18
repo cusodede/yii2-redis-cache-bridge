@@ -14,4 +14,16 @@ $connect = [
         ],
     ],
 ];
+
+//OR
+
+return [
+    'class' => Cache::class,
+    'keyPrefix' => 'PSB_',
+    'clientParams' => [
+        'host' => getenv('REDIS_HOST'),
+        'port' => getenv('REDIS_PORT'),
+        'password' => getenv('REDIS_PASSWORD')
+    ]
+];
 ```
