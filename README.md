@@ -31,3 +31,35 @@ return [
     ]
 ];
 ```
+
+## Tests
+
+First you need to collect containers and create a Redis cluster
+
+```bash
+make build && make create-cluster
+```
+
+Then run tests for all PHP version
+
+```bash
+make test
+```
+
+or run tests for concrete version `PHP 8.0` \ `PHP 8.1`
+
+```bash
+make test8.0
+```
+
+or 
+
+```bash
+make test8.1
+```
+
+## Static analysis
+
+```bash
+make analyse
+```
