@@ -1,5 +1,7 @@
 # yii2-redis-cache-bridge
 
+[![Build Status](https://github.com/cusodede/yii2-redis-cache-bridge/actions/workflows/tests.yml/badge.svg)](https://github.com/cusodede/yii2-redis-cache-bridge/actions)
+
 ## How to Redis cluster connection
 https://redis.io/docs/manual/scaling/
 
