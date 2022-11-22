@@ -1,4 +1,6 @@
-# yii2-redis-cache-bridge
+# Yii2 redis cache bridge
+
+The bridge between Yii2 cache and Yii3 cache for Redis. Implements support for working with cluster variants and a single Redis installation
 
 [![Build Status](https://github.com/cusodede/yii2-redis-cache-bridge/actions/workflows/tests.yml/badge.svg)](https://github.com/cusodede/yii2-redis-cache-bridge/actions)
 
