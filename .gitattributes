@@ -1,1 +1,7 @@
 * text=auto eol=lf
+
+/codeception.yml    export-ignore
+/psalm.xml          export-ignore
+/Makefile           export-ignore
+/.github            export-ignore
+/tests              export-ignore
