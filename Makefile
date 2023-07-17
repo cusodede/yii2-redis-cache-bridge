@@ -26,6 +26,5 @@ connect-cluster:	## Connect to RabbitMQ cluster
 	docker exec -it redis1 sh -c "redis-cli -c -p 6381 -a Password --no-auth-warning"
 
 static-analyze:		## Run code static analyze. Params: {{ v=8.1 }}. Default latest PHP 8.1
-	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml build --pull yii2-cache-bridge-php$(v)
-	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run yii2-cache-bridge-php$(v) vendor/bin/psalm --stats -m --output-format=console --php-version=$(v) --threads=2
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run yii2-cache-bridge-php vendor/bin/psalm --stats -m --output-format=console --php-version=$(v) --threads=2
 	make down
