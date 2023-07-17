@@ -6,7 +6,7 @@
   "require": {
     "php": "^8.0|^8.1",
     "yiisoft/yii2": "2.0.47",
-    "yiisoft/cache-redis": "^1.0.0"
+    "yiisoft/cache-redis": "^2.0.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
