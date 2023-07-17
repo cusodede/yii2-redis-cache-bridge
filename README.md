@@ -32,34 +32,25 @@ return [
 ];
 ```
 
-## Tests
+## Tests via Docker
 
-First you need to collect containers and create a Redis cluster
+### Prepare
 
 ```bash
-make build && make create-cluster
+# {{ v }} = 8.0, 8.1, 8.2. Default PHP 8.1
+make build v=8.1
 ```
 
-Then run tests for all PHP version
+### Unit testing
 
 ```bash
-make test
+# {{ v }} = 8.0, 8.1, 8.2. Default PHP 8.1
+make test v=8.1
 ```
 
-or run tests for concrete version `PHP 8.0` \ `PHP 8.1`
+### Static analysis
 
 ```bash
-make test8.0
-```
-
-or 
-
-```bash
-make test8.1
-```
-
-## Static analysis
-
-```bash
-make analyse
+# {{ v }} = 8.0, 8.1, 8.2. Default PHP 8.1
+make static-analyze v=8.1
 ```
