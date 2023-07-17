@@ -16,7 +16,7 @@ sh:			## Enter the container with the application
 test:			## Run tests. Params: {{ v=8.1 }}. Default latest PHP 8.1
 	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml build --pull yii2-cache-bridge-php
 	make create-cluster
-	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run yii2-cache-bridge-php vendor/bin/phpunit --colors=always
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run yii2-cache-bridge-php vendor/bin/codecept run
 	make down
 
 create-cluster:		## Create RabbitMQ cluster

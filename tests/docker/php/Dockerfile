@@ -9,8 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-ADD . /var/www
 WORKDIR /var/www
 
-RUN composer update --prefer-dist --no-interaction
+CMD ["flock", "tests/runtime/composer-install.lock", "composer", "update", "--prefer-dist", "--no-interaction"]
 CMD ["sleep", "infinity"]
