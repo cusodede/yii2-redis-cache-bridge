@@ -1,35 +1,31 @@
-help:						## Show this help.
+help:			## Display help information.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-build:						## Build project
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d --build
+build:			## Build an image from a docker-compose file. Params: {{ v=8.1 }}. Default latest PHP 8.1
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml up -d --build
 
-down:						## Down project
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
+down:			## Stop and remove containers, networks
+	docker-compose -f tests/docker/docker-compose.yml down
 
-start:						## Start project
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose up -d
+start:			## Start services
+	docker-compose -f tests/docker/docker-compose.yml up -d
 
-test: test8.0 test8.1				## Start tests for PHP 8.0 and PHP 8.1
-test8.0:					## Start tests for PHP 8.0
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.0
+sh:			## Enter the container with the application
+	docker exec -it yii2-cache-bridge-php sh
+
+test:			## Run tests. Params: {{ v=8.1 }}. Default latest PHP 8.1
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml build --pull cache-redis-php
 	make create-cluster
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php8.0 vendor/bin/codecept run
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run cache-redis-php vendor/bin/phpunit --colors=always
+	make down
 
-test8.1:					## Start tests for PHP 8.1
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php8.1
-	make create-cluster
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php8.1 vendor/bin/codecept run
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
-
-create-cluster:					## Create RabbitMQ cluster
+create-cluster:		## Create RabbitMQ cluster
 	docker exec redis1 sh -c "redis-cli -p 6381 -a Password --cluster create 172.20.128.2:6381 172.20.128.3:6382 172.20.128.4:6383 172.20.128.5:6384 172.20.128.6:6385 172.20.128.7:6386 --cluster-replicas 1 --no-auth-warning --cluster-yes"
 
-connect-cluster:				## Connect to RabbitMQ cluster
+connect-cluster:	## Connect to RabbitMQ cluster
 	docker exec -it redis1 sh -c "redis-cli -c -p 6381 -a Password --no-auth-warning"
 
-analyse:					## Run static analyse
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose build --pull php$(v)
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose run php$(v) vendor/bin/psalm --stats -m --output-format=console --php-version=$(v) --threads=2
-	COMPOSE_FILE=tests/docker/docker-compose.yml docker-compose down
+static-analyze:		## Run code static analyze. Params: {{ v=8.1 }}. Default latest PHP 8.1
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml build --pull cache-redis-php$(v)
+	PHP_VERSION=$(filter-out $@,$(v)) docker-compose -f tests/docker/docker-compose.yml run cache-redis-php$(v) vendor/bin/psalm --stats -m --output-format=console --php-version=$(v) --threads=2
+	make down
