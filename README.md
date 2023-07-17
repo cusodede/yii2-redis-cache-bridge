@@ -4,6 +4,24 @@ The bridge between Yii2 cache and Yii3 cache for Redis. Implements support for w
 
 [![Build Status](https://github.com/cusodede/yii2-redis-cache-bridge/actions/workflows/tests.yml/badge.svg)](https://github.com/cusodede/yii2-redis-cache-bridge/actions)
 
+## Requirements
+
+- PHP 8.0 or higher.
+
+## How to Redis connection
+
+```php
+return [
+    'class' => Cache::class,
+    'keyPrefix' => 'YOUR_APP_PREFIX_',
+    'clientParams' => [
+        'host' => getenv('REDIS_HOST'),
+        'port' => getenv('REDIS_PORT'),
+        'password' => getenv('REDIS_PASSWORD')
+    ]
+];
+```
+
 ## How to Redis cluster connection
 https://redis.io/docs/manual/scaling/
 
@@ -17,18 +35,6 @@ $connect = [
             'password' => 'password',
         ],
     ],
-];
-
-//OR
-
-return [
-    'class' => Cache::class,
-    'keyPrefix' => 'YOUR_APP_PREFIX_',
-    'clientParams' => [
-        'host' => getenv('REDIS_HOST'),
-        'port' => getenv('REDIS_PORT'),
-        'password' => getenv('REDIS_PASSWORD')
-    ]
 ];
 ```
 
