@@ -21,4 +21,4 @@ jobs:
       - name: Static analysis
         run: |
           make build v=${{ matrix.php }}
-          make analyse v=${{ matrix.php }}
+          make static-analyze v=${{ matrix.php }}
