@@ -11,5 +11,5 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 WORKDIR /var/www
 
-CMD ["flock", "tests/runtime/composer-install.lock", "composer", "update", "--prefer-dist", "--no-interaction"]
+ENTRYPOINT ["sh", "tests/docker/php/entrypoint.sh"]
 CMD ["sleep", "infinity"]
