@@ -6,8 +6,6 @@ namespace Cusodede\Redis;
 
 use Predis\Client;
 use Predis\ClientInterface;
-use Predis\Command\ServerFlushDatabase;
-use Predis\Connection\StreamConnection;
 use Predis\NotSupportedException;
 use yii\caching\Cache as Yii2Cache;
 use Yiisoft\Cache\Redis\RedisCache;
@@ -88,7 +86,7 @@ class Cache extends Yii2Cache
     public function flushValues(): bool
     {
         if ($this->isCluster) {
-            return $this->flushCluster();
+            return $this->instance->clear();
         }
 
         return $this->client->flushall();
@@ -134,10 +132,6 @@ class Cache extends Yii2Cache
      */
     public function flush(): bool
     {
-        if ($this->isCluster) {
-            return $this->flushCluster();
-        }
-
         return $this->instance->clear();
     }
 
@@ -185,19 +179,5 @@ class Cache extends Yii2Cache
     public function getInstance(): RedisCache
     {
         return $this->instance;
-    }
-
-    /**
-     * @return bool
-     */
-    private function flushCluster(): bool
-    {
-        $flushDbCommand = new ServerFlushDatabase();
-        foreach ($this->client->getConnection() as $node) {
-            /** @var StreamConnection $node */
-            $node->executeCommand($flushDbCommand);
-        }
-
-        return true;
     }
 }

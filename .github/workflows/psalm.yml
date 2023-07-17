@@ -18,8 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build
-        run: make build v=${{ matrix.php }}
-
       - name: Static analysis
-        run: make analyse v=${{ matrix.php }}
+        run: |
+          make build v=${{ matrix.php }}
+          make static-analyze v=${{ matrix.php }}
