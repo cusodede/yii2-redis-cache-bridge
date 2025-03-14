@@ -1,5 +1,4 @@
-version: '3.8'
-
+---
 services:
   yii2-cache-bridge-php:
     container_name: yii2-cache-bridge-php
@@ -43,7 +42,6 @@ services:
     networks:
       yii2-cache-bridge-network:
         ipv4_address: 172.20.128.2
-
 
   redis2:
       image: redis:7.0.4-alpine
@@ -119,6 +117,78 @@ services:
       networks:
         yii2-cache-bridge-network:
           ipv4_address: 172.20.128.7
+
+  redis-master:
+    image: redis:7.0.4-alpine
+    container_name: redis-master
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis-master.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.11
+
+  redis-slave-1:
+    image: redis:7.0.4-alpine
+    container_name: redis-slave-1
+    ports:
+      - "6387:6379"
+    volumes:
+      - ./redis/conf/redis-slave1.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.12
+
+  redis-slave-2:
+    image: redis:7.0.4-alpine
+    container_name: redis-slave-2
+    ports:
+      - "6388:6379"
+    volumes:
+      - ./redis/conf/redis-slave2.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.13
+
+  sentinel1:
+    image: redis:7.0.4-alpine
+    container_name: sentinel1
+    ports:
+      - "26379:26379"
+    volumes:
+      - ./redis/conf/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.8
+
+  sentinel2:
+    image: redis:7.0.4-alpine
+    container_name: sentinel2
+    ports:
+      - "26380:26379"
+    volumes:
+      - ./redis/conf/sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.9
+
+  sentinel3:
+    image: redis:7.0.4-alpine
+    container_name: sentinel3
+    ports:
+      - "26381:26379"
+    volumes:
+      - ./redis/conf/sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    networks:
+      yii2-cache-bridge-network:
+        ipv4_address: 172.20.128.10
 
 networks:
   yii2-cache-bridge-network:
